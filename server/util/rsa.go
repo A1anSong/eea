@@ -4,9 +4,9 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
+	"eea/config"
 	"encoding/pem"
 	"errors"
-	"goeea/config"
 )
 
 func RSADecrypt(cipherText []byte) ([]byte, error) {

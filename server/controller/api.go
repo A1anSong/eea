@@ -1,12 +1,12 @@
 package controller
 
 import (
+	"eea/config"
+	"eea/model"
+	"eea/util"
 	"encoding/base64"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"goeea/config"
-	"goeea/model"
-	"goeea/util"
 	"net/http"
 	"time"
 )

@@ -10,7 +10,7 @@ func InitRouter() *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
-	r.Use(static.Serve("/", static.LocalFile("./dist", true)))
+	r.Use(static.Serve("/", static.LocalFile("../web/dist", true)))
 
 	api := r.Group("/api")
 	{
@@ -19,7 +19,7 @@ func InitRouter() *gin.Engine {
 	}
 
 	r.NoRoute(func(c *gin.Context) {
-		c.File("./dist/index.html")
+		c.File("../web/dist/index.html")
 	})
 
 	return r
