@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"eea/config"
 	"eea/controller"
 	"eea/router"
 	"log"
@@ -9,9 +10,21 @@ import (
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/spf13/viper"
 )
 
 func main() {
+	viper.AddConfigPath("./")
+	viper.SetConfigName("eea")
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	err = viper.Unmarshal(&config.Configs)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 	controller.ConnectDB()
 
 	r := router.InitRouter()

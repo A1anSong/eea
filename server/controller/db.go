@@ -3,21 +3,16 @@ package controller
 import (
 	"eea/config"
 	"eea/model"
+	"log"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"log"
 )
 
 var globalDB *gorm.DB
 
 func ConnectDB() {
-	dsn := config.DBUser + ":" +
-		config.DBPassword + "@tcp(" +
-		config.DBAddress + ":" +
-		config.DBPort + ")/" +
-		config.DBDatabase + "?charset=" +
-		config.DBCharset + "&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+	db, err := gorm.Open(mysql.Open(config.Configs.Mysql), &gorm.Config{
 		PrepareStmt: true,
 	})
 	if err != nil {

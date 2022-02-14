@@ -6,9 +6,10 @@ import (
 	"eea/util"
 	"encoding/base64"
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type UserCookie struct {
@@ -32,6 +33,10 @@ func Login(c *gin.Context) {
 
 	email := c.PostForm("email")
 	password := c.PostForm("password")
+	if email == "" || password == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "input error"})
+		return
+	}
 
 	db := GetDB()
 	var user model.User
@@ -52,8 +57,8 @@ func Login(c *gin.Context) {
 
 	userCookieJson, _ := json.Marshal(&userCookie)
 
-	c.SetCookie("eea_token", token, int(config.JwtExpireDuration.Seconds()), "/", config.ServerDomain, false, true)
-	c.SetCookie("user_id", string(userCookieJson), int(config.JwtExpireDuration.Seconds()), "/", config.ServerDomain, false, false)
+	c.SetCookie("eea_token", token, int(config.Configs.Jwt.Expire.Seconds()), "/", config.Configs.Domain, false, true)
+	c.SetCookie("user_id", string(userCookieJson), int(config.Configs.Jwt.Expire.Seconds()), "/", config.Configs.Domain, false, false)
 
 	c.JSON(http.StatusOK, user)
 }

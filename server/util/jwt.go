@@ -4,8 +4,9 @@ import (
 	"eea/config"
 	"eea/model"
 	"errors"
-	"github.com/golang-jwt/jwt/v4"
 	"time"
+
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type EEAToken struct {
@@ -21,17 +22,17 @@ func GenToken(user *model.User) (string, error) {
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer: "EEACash",
 			ExpiresAt: &jwt.NumericDate{
-				Time: time.Now().Add(config.JwtExpireDuration),
+				Time: time.Now().Add(config.Configs.Jwt.Expire),
 			},
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, eeaToken)
-	return token.SignedString([]byte(config.JwtSecrect))
+	return token.SignedString([]byte(config.Configs.Jwt.Secret))
 }
 
 func ParseToken(tokenString string) (*EEAToken, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &EEAToken{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(config.JwtSecrect), nil
+		return []byte(config.Configs.Jwt.Secret), nil
 	})
 	if err != nil {
 		return nil, err
