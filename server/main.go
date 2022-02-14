@@ -16,7 +16,7 @@ import (
 
 func main() {
 	viper.AddConfigPath("./")
-	viper.SetConfigName("eea")
+	viper.SetConfigName("server")
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Fatal(err.Error())
