@@ -9,7 +9,7 @@ test:
 web:
 
 dev: server web
-	cp configs/server_dev.yaml bin/server.yaml
-	./bin/server
+	cp configs/eea.yaml bin/eea.yaml
+	cd bin;./server
 
 .PHONY: server
