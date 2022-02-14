@@ -2,6 +2,9 @@ import {createRouter, createWebHistory} from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import NoRoute from "../views/NoRoute.vue";
+import UserHome from "../views/user/Home.vue";
+import AdminHome from "../views/admin/Home.vue";
+import AdminDashboard from "../components/admin/Dashboard.vue";
 
 const router = createRouter({
         history: createWebHistory(),
@@ -17,6 +20,17 @@ const router = createRouter({
             meta: {
                 title: 'Login'
             }
+        }, {
+            path: '/user',
+            component: UserHome,
+            children: []
+        }, {
+            path: '/admin',
+            component: AdminHome,
+            children: [{
+                path: '',
+                component: AdminDashboard
+            }]
         }, {
             path: '/:pathMatch(.*)*',
             component: NoRoute,

@@ -1,5 +1,5 @@
 <template>
-  <el-button type="primary">Login</el-button>
+  <el-button type="primary" @click="$router.push('/admin')">Login</el-button>
 </template>
 
 <script>
