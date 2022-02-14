@@ -1,21 +1,21 @@
-Domain: eea.com
-Mysql: root:123456@tcp(127.0.0.1:3306)/eea
+Domain: eea.a1ansong.com
+Mysql: eea_a1ansong_com:Nhm3ydGi2YWDkz4e@tcp(127.0.0.1:3306)/eea_a1ansong_com?charset=utf8mb4&parseTime=True&loc=Local
 Jwt:
-  Expire: 24h
-  Secret: abcdefg
+  Expire: 1h
+  Secret: eea to the moon
 RSA: |
-     -----BEGIN RSA PRIVATE KEY-----
-     MIICXQIBAAKBgQDbzzkYFQeshu39thT4UvpdU7x3i1FOL6KQ5BJUGPTnVJRS8HU3
-     yuPL5S2tYgPzMJbAm+nPzp7zlpR3Ntop/djET9Sc2Ne8qCLQyf3ZwsCYxdYbpDVq
-     tWDtlcBNMAaqr2Z4v9Z7ZHfNEWOlkLTvUCXeTT3k3DFN72wOkP2jLkFJIQIDAQAB
-     AoGBAMLptFUYgN+KHou15E53Ni9/y0WuMoDEWMFmnKIaJ0DijUwmkarRrMHnDWQL
-     4DjLw0I0f1aYf/a8dhZoe3h08rssWnzNGBPKIDIR0Oh+uR+KI0ItAKueBMsnPhMY
-     9q0+t62RaZD379rlgfTMN2xq5KZJjRIs+KCMxRFIVch7VrBhAkEA+Xt7lFauVZ5/
-     SdA5zT5cdpRcVQpkpyJJk9vdV7OEOKuXvuGY58aKVC58cikexBq4hp7gXtn18ESI
-     Y5sjUe05fQJBAOGNSlxL+p8mDnIYWL9KwZO1h82rxjIeSMAeRlpWxTW7idbEnI/p
-     rZEAtjTKhfm8SlrvofkWMaOyWOmqEgtlf3UCQBnVIWywtQiEiuWXvAR2iph0sELV
-     +qobsMawo3CrU+uSSPoo3e5R7ozc62HexCLGKYk29kCcDQ0962l07OlUyPkCQGLz
-     6bu0Wa+Ysp27sLO7yFFVQs8onTs/rgsbPSJFDyATttVSTJ2Wl18WQNnIQB7gTH64
-     wwbUhdKbXAanZmM5lEECQQC0paEcIDOGc5/2SD4fQbd9Ed9CDQgoZvU1kwPznHR1
-     220GbU18Afn5DQkQZHOyfl/niVxFkHPWMTb99Yg0fjjP
-     -----END RSA PRIVATE KEY-----
+  -----BEGIN RSA PRIVATE KEY-----
+  MIICXQIBAAKBgQDbzzkYFQeshu39thT4UvpdU7x3i1FOL6KQ5BJUGPTnVJRS8HU3
+  yuPL5S2tYgPzMJbAm+nPzp7zlpR3Ntop/djET9Sc2Ne8qCLQyf3ZwsCYxdYbpDVq
+  tWDtlcBNMAaqr2Z4v9Z7ZHfNEWOlkLTvUCXeTT3k3DFN72wOkP2jLkFJIQIDAQAB
+  AoGBAMLptFUYgN+KHou15E53Ni9/y0WuMoDEWMFmnKIaJ0DijUwmkarRrMHnDWQL
+  4DjLw0I0f1aYf/a8dhZoe3h08rssWnzNGBPKIDIR0Oh+uR+KI0ItAKueBMsnPhMY
+  9q0+t62RaZD379rlgfTMN2xq5KZJjRIs+KCMxRFIVch7VrBhAkEA+Xt7lFauVZ5/
+  SdA5zT5cdpRcVQpkpyJJk9vdV7OEOKuXvuGY58aKVC58cikexBq4hp7gXtn18ESI
+  Y5sjUe05fQJBAOGNSlxL+p8mDnIYWL9KwZO1h82rxjIeSMAeRlpWxTW7idbEnI/p
+  rZEAtjTKhfm8SlrvofkWMaOyWOmqEgtlf3UCQBnVIWywtQiEiuWXvAR2iph0sELV
+  +qobsMawo3CrU+uSSPoo3e5R7ozc62HexCLGKYk29kCcDQ0962l07OlUyPkCQGLz
+  6bu0Wa+Ysp27sLO7yFFVQs8onTs/rgsbPSJFDyATttVSTJ2Wl18WQNnIQB7gTH64
+  wwbUhdKbXAanZmM5lEECQQC0paEcIDOGc5/2SD4fQbd9Ed9CDQgoZvU1kwPznHR1
+  220GbU18Afn5DQkQZHOyfl/niVxFkHPWMTb99Yg0fjjP
+  -----END RSA PRIVATE KEY-----

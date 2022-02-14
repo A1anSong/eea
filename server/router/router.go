@@ -17,7 +17,7 @@ func InitRouter() *gin.Engine {
 	api := r.Group("/api")
 	{
 		api.POST("/login", controller.Login)
-		api.Use(Auth)
+		//api.Use(Auth)
 		api.POST("/rsadecrypt", controller.RSADecrypt)
 		api.GET("/ping", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{"msg": "ok"})

@@ -10,7 +10,7 @@ import (
 )
 
 func RSADecrypt(cipherText []byte) ([]byte, error) {
-	block, _ := pem.Decode(config.RSAPrivateKey)
+	block, _ := pem.Decode([]byte(config.Configs.RSA))
 	if block == nil {
 		return nil, errors.New("private key error")
 	}

@@ -6,10 +6,10 @@ import (
 	"eea/util"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 type UserCookie struct {
@@ -40,10 +40,11 @@ func Login(c *gin.Context) {
 
 	db := GetDB()
 	var user model.User
-	db.First(&user, model.User{
-		Email:    email,
-		Password: password,
-	})
+	if result := db.Where("email = ? AND password = ?", email, password).First(&user); result.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "input error"})
+		return
+	}
+	// TODO: 未找到记录的判断处理
 	user.LastLogin = time.Now()
 	db.Save(&user)
 
@@ -56,9 +57,10 @@ func Login(c *gin.Context) {
 	}
 
 	userCookieJson, _ := json.Marshal(&userCookie)
+	fmt.Println(userCookie.Role)
 
 	c.SetCookie("eea_token", token, int(config.Configs.Jwt.Expire.Seconds()), "/", config.Configs.Domain, false, true)
-	c.SetCookie("user_id", string(userCookieJson), int(config.Configs.Jwt.Expire.Seconds()), "/", config.Configs.Domain, false, false)
+	c.SetCookie("user_info", string(userCookieJson), int(config.Configs.Jwt.Expire.Seconds()), "/", config.Configs.Domain, false, false)
 
 	c.JSON(http.StatusOK, user)
 }
