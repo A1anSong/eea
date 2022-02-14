@@ -44,7 +44,6 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"msg": "input error"})
 		return
 	}
-	// TODO: 未找到记录的判断处理
 	user.LastLogin = time.Now()
 	db.Save(&user)
 
