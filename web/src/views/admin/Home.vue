@@ -30,7 +30,5 @@ export default {
 </script>
 
 <style scoped>
-.el-container {
-  height: 100%;
-}
+
 </style>
