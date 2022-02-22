@@ -6,7 +6,6 @@ import (
 	"eea/util"
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -33,15 +32,15 @@ func Login(c *gin.Context) {
 
 	email := c.PostForm("email")
 	password := c.PostForm("password")
+	remember := c.PostForm("remember")
 	if email == "" || password == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"msg": "input error"})
 		return
 	}
-
 	db := GetDB()
 	var user model.User
 	if result := db.Where("email = ? AND password = ?", email, password).First(&user); result.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"msg": "input error"})
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": "input error"})
 		return
 	}
 	user.LastLogin = time.Now()
@@ -56,12 +55,16 @@ func Login(c *gin.Context) {
 	}
 
 	userCookieJson, _ := json.Marshal(&userCookie)
-	fmt.Println(userCookie.Role)
 
-	c.SetCookie("eea_token", token, int(config.Configs.Jwt.Expire.Seconds()), "/", config.Configs.Domain, false, true)
-	c.SetCookie("user_info", string(userCookieJson), int(config.Configs.Jwt.Expire.Seconds()), "/", config.Configs.Domain, false, false)
+	maxAge := 0
+	if remember == "true" {
+		maxAge = int(config.Configs.Jwt.Expire.Seconds())
+	}
 
-	c.JSON(http.StatusOK, user)
+	c.SetCookie("eea_token", token, maxAge, "/", config.Configs.Domain, false, true)
+	c.SetCookie("user_info", string(userCookieJson), maxAge, "/", config.Configs.Domain, false, false)
+
+	c.Redirect(http.StatusTemporaryRedirect, "/admin")
 }
 
 func RSADecrypt(c *gin.Context) {
