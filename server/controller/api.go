@@ -34,13 +34,13 @@ func Login(c *gin.Context) {
 	password := c.PostForm("password")
 	remember := c.PostForm("remember")
 	if email == "" || password == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"msg": "input error"})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "Input error"})
 		return
 	}
 	db := GetDB()
 	var user model.User
 	if result := db.Where("email = ? AND password = ?", email, password).First(&user); result.RowsAffected == 0 {
-		c.JSON(http.StatusUnauthorized, gin.H{"msg": "input error"})
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": "Invalid Email address or Password"})
 		return
 	}
 	user.LastLogin = time.Now()
@@ -64,7 +64,7 @@ func Login(c *gin.Context) {
 	c.SetCookie("eea_token", token, maxAge, "/", config.Configs.Domain, false, true)
 	c.SetCookie("user_info", string(userCookieJson), maxAge, "/", config.Configs.Domain, false, false)
 
-	c.Redirect(http.StatusTemporaryRedirect, "/admin")
+	c.JSON(http.StatusOK, gin.H{"msg": "Login success as " + user.Role})
 }
 
 func RSADecrypt(c *gin.Context) {

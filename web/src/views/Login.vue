@@ -14,7 +14,7 @@
           </div>
           <div>
             <el-form-item label="Password"/>
-            <el-input class="mt-1" v-model="password" type="password" show-password/>
+            <el-input @keyup.enter="submit" class="mt-1" v-model="password" type="password" show-password/>
           </div>
           <div class="flex items-center justify-between">
             <div class="flex items-center">
@@ -27,7 +27,7 @@
             </div>
           </div>
           <div>
-            <el-button @click="submit">Sign in</el-button>
+            <el-button @click="submit" :loading="loading">Sign in</el-button>
           </div>
         </el-form>
       </div>
@@ -39,6 +39,8 @@
 <script>
 import FormData from 'form-data'
 import axios from 'axios'
+import {ElMessage} from 'element-plus'
+import router from "../router";
 
 export default {
   name: "Login",
@@ -47,20 +49,26 @@ export default {
       email: '',
       password: '',
       remember: true,
+      loading: false,
     }
   },
   methods: {
     submit() {
       const form = new FormData()
+      this.loading = true
       form.append('email', this.email)
       form.append('password', this.password)
       form.append('remember', this.remember)
       axios.post('/api/login', form)
           .then(function (response) {
-            console.log(response)
+            ElMessage.info(response.data.msg)
+            window.location.reload()
           })
-          .catch(function (error) {
-            console.log(error)
+          .catch(error => {
+            if (error.response.status === 400 || error.response.status === 401) {
+              ElMessage.error(error.response.data.msg)
+              this.loading = false
+            }
           })
     },
   },
