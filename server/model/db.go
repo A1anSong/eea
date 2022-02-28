@@ -1,8 +1,7 @@
-package controller
+package model
 
 import (
 	"eea/config"
-	"eea/model"
 	"log"
 
 	"gorm.io/driver/mysql"
@@ -23,7 +22,9 @@ func ConnectDB() {
 	log.Println("db connected success")
 
 	err = globalDB.AutoMigrate(
-		&model.User{},
+		&User{},
+		&Transfer{},
+		&Balance{},
 	)
 	if err != nil {
 		log.Fatal(err)

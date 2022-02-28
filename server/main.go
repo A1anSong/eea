@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"eea/config"
-	"eea/controller"
+	"eea/model"
 	"eea/router"
 	"log"
 	"net/http"
@@ -25,7 +25,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	controller.ConnectDB()
+	model.ConnectDB()
 
 	r := router.InitRouter()
 
@@ -40,7 +40,7 @@ func main() {
 		}
 	}()
 
-	quit := make(chan os.Signal)
+	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
 	log.Println("Shutdown Server ...")

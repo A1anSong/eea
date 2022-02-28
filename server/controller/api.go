@@ -6,9 +6,10 @@ import (
 	"eea/util"
 	"encoding/base64"
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type UserCookie struct {
@@ -37,7 +38,7 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"msg": "Input error"})
 		return
 	}
-	db := GetDB()
+	db := model.GetDB()
 	var user model.User
 	if result := db.Where("email = ? AND password = ?", email, password).First(&user); result.RowsAffected == 0 {
 		c.JSON(http.StatusUnauthorized, gin.H{"msg": "Invalid Email address or Password"})

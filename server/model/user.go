@@ -1,8 +1,16 @@
 package model
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
+)
+
+type AuthLevel int
+
+var (
+	AuthNone AuthLevel = 0
+	AuthKYC  AuthLevel = 1
 )
 
 type User struct {
@@ -14,6 +22,7 @@ type User struct {
 	Password  string     `json:"password,omitempty"`
 	Role      UserRole   `json:"role,omitempty"`
 	Status    UserStatue `json:"status,omitempty"`
+	AuthLevel AuthLevel  `json:"auth_level,omitempty"`
 	LastLogin time.Time  `json:"lastLogin"`
 	//Refer
 	//2FA

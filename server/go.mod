@@ -6,6 +6,8 @@ require (
 	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/golang-jwt/jwt/v4 v4.3.0
+	github.com/shopspring/decimal v1.3.1
+	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.10.1
 	gorm.io/driver/mysql v1.2.3
 	gorm.io/gorm v1.22.5
