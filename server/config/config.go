@@ -1,10 +1,12 @@
 package config
 
-import "time"
-
-var (
-	Configs Config
+import (
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
+	"time"
 )
+
+var Configs Config
 
 type Config struct {
 	Domain string
@@ -14,4 +16,17 @@ type Config struct {
 		Secret string
 	}
 	RSA string
+}
+
+func InitConfig() {
+	viper.AddConfigPath("./")
+	viper.SetConfigName("server")
+	err := viper.ReadInConfig()
+	if err != nil {
+		logrus.Fatal(err.Error())
+	}
+	err = viper.Unmarshal(&Configs)
+	if err != nil {
+		logrus.Fatal(err.Error())
+	}
 }

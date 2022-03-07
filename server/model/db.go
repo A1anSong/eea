@@ -2,35 +2,30 @@ package model
 
 import (
 	"eea/config"
-	"log"
-
+	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var globalDB *gorm.DB
 
-func ConnectDB() {
+func InitDB() {
 	db, err := gorm.Open(mysql.Open(config.Configs.Mysql), &gorm.Config{
 		PrepareStmt: true,
 	})
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err.Error())
 	}
 	globalDB = db
-
-	log.Println("db connected success")
-
+	logrus.Println("db connected success")
 	err = globalDB.AutoMigrate(
 		&User{},
-		&Transfer{},
 		&Balance{},
 	)
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
-
-	log.Println("auto migrate success")
+	logrus.Println("auto migrate success")
 }
 
 func GetDB() *gorm.DB {

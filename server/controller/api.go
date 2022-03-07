@@ -6,10 +6,8 @@ import (
 	"eea/util"
 	"encoding/base64"
 	"encoding/json"
-	"net/http"
-	"time"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type UserCookie struct {
@@ -19,61 +17,40 @@ type UserCookie struct {
 }
 
 func Login(c *gin.Context) {
-	//db := GetDB()
-	//initAdmin := model.User{
-	//	FirstName: "A1an",
-	//	LastName:  "Song",
-	//	Email:     "387805107@qq.com",
-	//	Password:  "19921201",
-	//	Role:      model.RoleAdmin,
-	//	Status:    model.StatusActive,
-	//	LastLogin: time.Now(),
-	//}
-	//db.Create(&initAdmin)
-
 	email := c.PostForm("email")
-	password := c.PostForm("password")
+	base64password := c.PostForm("password")
 	remember := c.PostForm("remember")
-	if email == "" || password == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"msg": "Input error"})
+	if email == "" || base64password == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "input error"})
 		return
 	}
-	db := model.GetDB()
-	var user model.User
-	if result := db.Where("email = ? AND password = ?", email, password).First(&user); result.RowsAffected == 0 {
-		c.JSON(http.StatusUnauthorized, gin.H{"msg": "Invalid Email address or Password"})
+	bytePassword, _ := base64.StdEncoding.DecodeString(base64password)
+	password, err := util.RSADecrypt(bytePassword)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
-	user.LastLogin = time.Now()
-	db.Save(&user)
-
-	token, _ := util.GenToken(&user)
-
+	user, err := model.GetUser(email)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": err.Error()})
+		return
+	}
+	if string(password) != user.Password {
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": "invalid password"})
+	}
+	user.Login()
+	token, _ := util.GenToken(user)
 	userCookie := UserCookie{
 		Id:     user.ID,
 		Role:   user.Role,
 		Status: user.Status,
 	}
-
 	userCookieJson, _ := json.Marshal(&userCookie)
-
 	maxAge := 0
 	if remember == "true" {
 		maxAge = int(config.Configs.Jwt.Expire.Seconds())
 	}
-
 	c.SetCookie("eea_token", token, maxAge, "/", config.Configs.Domain, false, true)
 	c.SetCookie("user_info", string(userCookieJson), maxAge, "/", config.Configs.Domain, false, false)
-
 	c.JSON(http.StatusOK, gin.H{"msg": "Login success as " + user.Role})
-}
-
-func RSADecrypt(c *gin.Context) {
-	base64Password := c.PostForm("password")
-	bytePassword, _ := base64.StdEncoding.DecodeString(base64Password)
-	password, err := util.RSADecrypt(bytePassword)
-	if err != nil {
-		c.String(http.StatusOK, err.Error())
-	}
-	c.String(http.StatusOK, string(password))
 }

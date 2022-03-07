@@ -4,10 +4,8 @@ import (
 	"eea/config"
 	"eea/model"
 	"errors"
-	"fmt"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -44,18 +42,4 @@ func ParseToken(tokenString string) (*EEAToken, error) {
 	} else {
 		return nil, errors.New("invalid token")
 	}
-}
-
-func User(c *gin.Context) (u *model.User, err error) {
-	value, ok := c.Get("user_info")
-	if !ok {
-		err = fmt.Errorf("no user found")
-		return
-	}
-	u, ok = value.(*model.User)
-	if !ok {
-		err = fmt.Errorf("user data error")
-		return
-	}
-	return
 }
