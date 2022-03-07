@@ -40,7 +40,8 @@
 import FormData from 'form-data'
 import axios from 'axios'
 import {ElMessage} from 'element-plus'
-import router from "../router";
+import store from "../store";
+import JSEncrypt from 'jsencrypt';
 
 export default {
   name: "Login",
@@ -54,15 +55,21 @@ export default {
   },
   methods: {
     submit() {
+      const encryptStr = new JSEncrypt()
+      encryptStr.setPublicKey(store.state.RSA)
+      const encryptPassword = encryptStr.encrypt(this.password)
+      console.log(encryptPassword)
       const form = new FormData()
       this.loading = true
       form.append('email', this.email)
-      form.append('password', this.password)
+      form.append('password', encryptPassword)
       form.append('remember', this.remember)
       axios.post('/api/login', form)
           .then(function (response) {
-            ElMessage.info(response.data.msg)
-            window.location.reload()
+            ElMessage.info(response.data.msg+' , the page will redirect to dashboard')
+            setTimeout(function () {
+              window.location.reload()
+            }, 5000)
           })
           .catch(error => {
             if (error.response.status === 400 || error.response.status === 401) {

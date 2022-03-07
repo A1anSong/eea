@@ -37,6 +37,7 @@ func Login(c *gin.Context) {
 	}
 	if string(password) != user.Password {
 		c.JSON(http.StatusUnauthorized, gin.H{"msg": "invalid password"})
+		return
 	}
 	user.Login()
 	token, _ := util.GenToken(user)
