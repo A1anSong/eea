@@ -49,27 +49,26 @@ export default {
     return {
       email: '',
       password: '',
-      remember: true,
+      remember: false,
       loading: false,
     }
   },
   methods: {
     submit() {
-      const encryptStr = new JSEncrypt()
+      let encryptStr = new JSEncrypt()
       encryptStr.setPublicKey(store.state.RSA)
-      const encryptPassword = encryptStr.encrypt(this.password)
-      console.log(encryptPassword)
-      const form = new FormData()
+      let encryptPassword = encryptStr.encrypt(this.password)
+      let form = new FormData()
       this.loading = true
       form.append('email', this.email)
       form.append('password', encryptPassword)
       form.append('remember', this.remember)
       axios.post('/api/login', form)
           .then(function (response) {
-            ElMessage.info(response.data.msg+' , the page will redirect to dashboard')
+            ElMessage.info(response.data.msg + ' , this page will redirect to dashboard in 3 seconds.')
             setTimeout(function () {
               window.location.reload()
-            }, 5000)
+            }, 3000)
           })
           .catch(error => {
             if (error.response.status === 400 || error.response.status === 401) {
