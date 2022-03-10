@@ -21,9 +21,11 @@ const (
 	StatusInactive UserStatue = "inactive"
 )
 
-const (
-	AuthNone UserAuth = 0
-	AuthKYC  UserAuth = 1
+type AuthLevel int
+
+var (
+	AuthNone AuthLevel = 0
+	AuthKYC  AuthLevel = 1
 )
 
 type User struct {
@@ -34,10 +36,8 @@ type User struct {
 	Password    string     `json:"password,omitempty"`
 	Role        UserRole   `json:"role,omitempty"`
 	Status      UserStatue `json:"status,omitempty"`
-	Auth        UserAuth   `json:"auth,omitempty"`
+	AuthLevel   AuthLevel  `json:"auth_level,omitempty"`
 	LastLogin   time.Time  `json:"lastLogin,omitempty"`
-
-	Balances []Balance
 }
 
 func GetUser(email string) (*User, error) {

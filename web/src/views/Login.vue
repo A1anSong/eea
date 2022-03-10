@@ -40,8 +40,8 @@
 import FormData from 'form-data'
 import axios from 'axios'
 import {ElMessage} from 'element-plus'
-import store from "../store";
-import JSEncrypt from 'jsencrypt';
+import store from "../store"
+import JSEncrypt from 'jsencrypt'
 
 export default {
   name: "Login",
@@ -65,7 +65,7 @@ export default {
       form.append('remember', this.remember)
       axios.post('/api/login', form)
           .then(function (response) {
-            ElMessage.info(response.data.msg + ' , this page will redirect to dashboard in 3 seconds.')
+            ElMessage.success(response.data.msg + ' , this page will redirect to dashboard soon.')
             setTimeout(function () {
               window.location.reload()
             }, 3000)
