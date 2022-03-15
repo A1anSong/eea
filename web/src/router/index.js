@@ -5,6 +5,10 @@ import Login from "../views/Login.vue"
 import NoRoute from "../views/NoRoute.vue"
 import Admin from "../views/Admin.vue"
 import AdminDash from "../views/admin/AdminDash.vue"
+import AdminUsers from "../views/admin/AdminUsers.vue"
+import AdminBalance from "../views/admin/AdminBalance.vue"
+import AdminTransfer from "../views/admin/AdminTransfer.vue"
+
 import User from "../views/User.vue"
 import UserDash from "../views/user/UserDash.vue"
 
@@ -27,12 +31,33 @@ const router = createRouter({
         component: Admin,
         children: [
             {
-                path: '',
+                path: 'dashboard',
                 component: AdminDash,
                 meta: {
                     title: 'Dashboard',
                 },
             },
+            {
+                path: 'users',
+                component: AdminUsers,
+                meta: {
+                    title: 'Users',
+                },
+            },
+            {
+                path: 'balance',
+                component: AdminBalance,
+                meta: {
+                    title: 'AdminBalance',
+                },
+            },
+            {
+                path: 'transfer',
+                component: AdminTransfer,
+                meta: {
+                    title: 'AdminTransfer',
+                },
+            }
         ],
     }, {
         path: '/user',
@@ -57,6 +82,7 @@ const router = createRouter({
 
 function checkPermission(role) {
     let userString = Cookies.get('user_info')
+    console.log("userstring:", userString)
     if (userString) {
         let user = JSON.parse(userString)
         if (role == user.role) {

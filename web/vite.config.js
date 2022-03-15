@@ -7,7 +7,7 @@ export default defineConfig({
         host: '0.0.0.0',
         proxy: {
             '/api': {
-                target: 'https://eea.a1ansong.com/',
+                target: 'http://localhost:8080',
                 changeOrigin: true,
             },
         },

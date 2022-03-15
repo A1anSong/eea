@@ -1,5 +1,5 @@
-Domain: eea.a1ansong.com
-Mysql: eea_a1ansong_com:Nhm3ydGi2YWDkz4e@tcp(127.0.0.1:3306)/eea_a1ansong_com?charset=utf8mb4&parseTime=True&loc=Local
+Domain:
+Mysql: root:123456@tcp(127.0.0.1:3306)/eea?charset=utf8mb4&parseTime=True&loc=Local
 Jwt:
   Expire: 1h
   Secret: eea to the moon

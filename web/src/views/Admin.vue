@@ -118,7 +118,7 @@
       <main>
         <div class="py-6">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+            <h1 class="text-2xl font-semibold text-gray-900">Admin</h1>
           </div>
           <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <!-- Replace with your content -->
@@ -160,12 +160,10 @@ import {
 } from '@heroicons/vue/outline'
 
 const navigation = [
-  {name: 'Dashboard', href: '#', icon: HomeIcon, current: true},
-  {name: 'Team', href: '#', icon: UsersIcon, current: false},
-  {name: 'Projects', href: '#', icon: FolderIcon, current: false},
-  {name: 'Calendar', href: '#', icon: CalendarIcon, current: false},
-  {name: 'Documents', href: '#', icon: InboxIcon, current: false},
-  {name: 'Reports', href: '#', icon: ChartBarIcon, current: false},
+  {name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon, current: true},
+  {name: 'Users', href: '/admin/users', icon: UsersIcon, current: false},
+  {name: 'Balances', href: '/admin/balance', icon: FolderIcon, current: false},
+  {name: 'Transfer', href: '/admin/transfer', icon: CalendarIcon, current: false}
 ]
 const userNavigation = [
   {name: 'Your Profile', href: '#'},

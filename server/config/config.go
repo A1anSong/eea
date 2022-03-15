@@ -1,12 +1,18 @@
 package config
 
 import (
+	"time"
+
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"time"
 )
 
-var Configs Config
+var Configs = Config{
+	Log: LogConfig{
+		Level: "info",
+		File:  "server.log",
+	},
+}
 
 type Config struct {
 	Domain string
@@ -16,6 +22,12 @@ type Config struct {
 		Secret string
 	}
 	RSA string
+	Log LogConfig
+}
+
+type LogConfig struct {
+	Level string
+	File  string
 }
 
 func InitConfig() {

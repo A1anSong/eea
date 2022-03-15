@@ -3,10 +3,12 @@ package controller
 import (
 	"eea/model"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
 )
 
 func SetBalance(c *gin.Context) {
@@ -82,10 +84,42 @@ func TransferInConfim(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": "ok"})
 }
 
+func GetUserList(c *gin.Context) {
+	page, perPage := GetPageParam(c)
+	offset := (page - 1) * perPage
+	if offset < 0 {
+		offset = 0
+	}
+	users, total, err := model.GetUserList("", offset, perPage)
+	if err != nil {
+		c.JSON(500, gin.H{"msg": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"data": users, "total": total})
+}
+
+func DeletetUser(c *gin.Context) {
+	idStr := c.Param("id")
+	nID, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{"msg": err.Error()})
+		return
+	}
+	_, err = model.DelUser(nID)
+	if err != nil {
+		c.JSON(500, gin.H{"msg": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"msg": "ok"})
+}
+
 func UpdateUserInfo(c *gin.Context) {
 	var user model.User
 	err := c.Bind(&user)
 	if err != nil || user.ID == 0 {
+		if err != nil {
+			logrus.Error("UpdateUserInfo error:", err.Error())
+		}
 		c.JSON(http.StatusBadRequest, gin.H{"msg": "param error"})
 		return
 	}

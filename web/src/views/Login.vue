@@ -58,6 +58,7 @@ export default {
       let encryptStr = new JSEncrypt()
       encryptStr.setPublicKey(store.state.RSA)
       let encryptPassword = encryptStr.encrypt(this.password)
+      console.log("pwd:", encryptPassword)
       let form = new FormData()
       this.loading = true
       form.append('email', this.email)

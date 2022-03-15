@@ -8,8 +8,10 @@ test:
 	cd server; go test -v
 web:
 
-dev: server web
-	cp config/server.yaml bin/server.yaml
-	cd bin; ./server
+dev_server:
+	cd server && air
+dev_web:
+	cd web && yarn dev
+dev: dev_server dev_web
 
 .PHONY: server

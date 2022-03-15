@@ -6,8 +6,9 @@ import (
 	"eea/util"
 	"encoding/base64"
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type UserCookie struct {
