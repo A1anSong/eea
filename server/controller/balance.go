@@ -4,9 +4,10 @@ import (
 	"eea/model"
 	"eea/util"
 	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
-	"net/http"
 )
 
 func TransferInReq(c *gin.Context) {
@@ -27,7 +28,7 @@ func TransferInReq(c *gin.Context) {
 		c.JSON(http.StatusForbidden, gin.H{"msg": fmt.Sprintf("no user found %s", err.Error())})
 		return
 	}
-	param.UserID = int64(user.ID)
+	param.UserID = user.ID
 	param.Type = model.TransferTypeIn
 	param.Status = model.TransferInit
 	err = model.GetDB().Create(&param).Error
@@ -76,7 +77,7 @@ func WithDrawReq(c *gin.Context) {
 		return
 	}
 
-	param.UserID = int64(user.ID)
+	param.UserID = user.ID
 	param.Type = model.TransferTypeOut
 	param.Status = model.TransferInit
 
@@ -98,9 +99,9 @@ func Balance(c *gin.Context) {
 	var balance model.Balance
 	err = model.GetDB().Where("user_id=?", user.ID).Find(&balance).Error
 	if err != nil {
-		balance.UserID = int64(user.ID)
+		balance.UserID = user.ID
 		balance.Currency = "USD"
-		balance.Balance = "0"
+		balance.Balance = 0
 		logrus.Errorf("user balance not found %s", err.Error())
 	}
 	c.JSON(http.StatusOK, gin.H{"data": balance})

@@ -28,6 +28,7 @@ func InitRouter() *gin.Engine {
 		adm := api.Group("/admin")
 		adm.Use(middleware.Admin)
 		adm.POST("/balance/:uid", controller.SetBalance)
+		adm.GET("/balances", controller.GetBalanceList)
 		adm.POST("/invert_strategy/:uid", controller.SetInvestStrategy)
 		adm.POST("/withdraw/:id/confim", controller.WithDrawConfim)
 		adm.POST("/transferin/:id/confim", controller.TransferInConfim)

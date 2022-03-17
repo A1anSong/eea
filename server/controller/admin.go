@@ -15,13 +15,13 @@ func SetBalance(c *gin.Context) {
 	userID := c.Param("uid")
 	nID, err := strconv.ParseInt(userID, 10, 64)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"msg": "param error"})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "param error:" + err.Error()})
 		return
 	}
 	var balance model.Balance
 	err = c.Bind(&balance)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"msg": "param error"})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "param error:" + err.Error()})
 		return
 	}
 
@@ -90,7 +90,8 @@ func GetUserList(c *gin.Context) {
 	if offset < 0 {
 		offset = 0
 	}
-	users, total, err := model.GetUserList("", offset, perPage)
+	email := c.Query("email")
+	users, total, err := model.GetUserList(email, offset, perPage)
 	if err != nil {
 		c.JSON(500, gin.H{"msg": err.Error()})
 		return
@@ -203,4 +204,19 @@ func doTransfer(nID int64, isIn bool) (err error) {
 		return
 	}
 	return
+}
+
+func GetBalanceList(c *gin.Context) {
+	page, perPage := GetPageParam(c)
+	offset := (page - 1) * perPage
+	if offset < 0 {
+		offset = 0
+	}
+	email := c.Query("email")
+	balances, total, err := model.GetBalanceList(email, offset, perPage)
+	if err != nil {
+		c.JSON(500, gin.H{"msg": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"data": balances, "total": total})
 }

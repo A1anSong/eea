@@ -41,6 +41,26 @@ class Api {
             })
         })
     }
+    getBalanceList(params) {
+        let t = this
+        return new Promise((resolve, reject) => {
+            t.axios.get('/api/admin/balances', {params: params}).then(resp => {
+                resolve(resp)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    }
+    updateBalance(uid, data) {
+        let t = this
+        return new Promise((resolve, reject) => {
+            t.axios.post('/api/admin/balance/' + uid, data).then(resp => {
+                resolve(resp)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    }
 }
 
 export default Api
