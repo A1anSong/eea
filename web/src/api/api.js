@@ -61,6 +61,27 @@ class Api {
             })
         })
     }
-}
 
+    getTransferList(params) {
+        let t = this
+        return new Promise((resolve, reject) => {
+            t.axios.get('/api/admin/transfers', {params: params}).then(resp => {
+                resolve(resp)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    }
+    transferConfim(id) {
+        let t = this
+        return new Promise((resolve, reject) => {
+            t.axios.post('/api/admin/transfer/' + id + '/confim').then(resp => {
+                resolve(resp)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    }
+    
+}
 export default Api

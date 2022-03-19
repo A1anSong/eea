@@ -2,6 +2,7 @@ package model
 
 import (
 	"eea/config"
+
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -21,6 +22,7 @@ func InitDB() {
 	err = globalDB.AutoMigrate(
 		&User{},
 		&Balance{},
+		&Transfer{},
 	)
 	if err != nil {
 		logrus.Fatal(err)

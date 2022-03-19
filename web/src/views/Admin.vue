@@ -136,7 +136,8 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
+import { useRoute } from 'vue-router'
 import {
   Dialog,
   DialogOverlay,
@@ -159,12 +160,6 @@ import {
   XIcon,
 } from '@heroicons/vue/outline'
 
-const navigation = [
-  {name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon, current: true},
-  {name: 'Users', href: '/admin/users', icon: UsersIcon, current: false},
-  {name: 'Balances', href: '/admin/balance', icon: FolderIcon, current: false},
-  {name: 'Transfer', href: '/admin/transfer', icon: CalendarIcon, current: false}
-]
 const userNavigation = [
   {name: 'Your Profile', href: '#'},
   {name: 'Settings', href: '#'},
@@ -186,8 +181,24 @@ export default {
     XIcon,
   },
   setup() {
+    var navigation = [
+      {name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon, current: true},
+      {name: 'Users', href: '/admin/users', icon: UsersIcon, current: false},
+      {name: 'Balances', href: '/admin/balance', icon: FolderIcon, current: false},
+      {name: 'Transfer', href: '/admin/transfer', icon: CalendarIcon, current: false}
+    ]
     const sidebarOpen = ref(false)
-
+    const route = useRoute()
+    let path = route.path
+    for (let i in navigation){
+      let v = navigation[i]
+      if (v.href === path){
+        navigation[i].current = true
+      }else{
+        navigation[i].current = false
+      }
+    }
+    console.log(navigation)
     return {
       navigation,
       userNavigation,

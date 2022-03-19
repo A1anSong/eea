@@ -49,34 +49,17 @@ func SetBalance(c *gin.Context) {
 
 // SetInvestStrategy admin
 func SetInvestStrategy(c *gin.Context) {
-
 }
 
-// WithDrawConfim admin
-func WithDrawConfim(c *gin.Context) {
+// TransferConfim admin
+func TransferConfim(c *gin.Context) {
 	idStr := c.Param("id")
 	nID, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"msg": "param error"})
 		return
 	}
-	err = doTransfer(nID, false)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"msg": fmt.Sprintf("data error:%s", err.Error())})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"msg": "ok"})
-}
-
-// TransferInConfim admin
-func TransferInConfim(c *gin.Context) {
-	idStr := c.Param("id")
-	nID, err := strconv.ParseInt(idStr, 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"msg": "param error"})
-		return
-	}
-	err = doTransfer(nID, true)
+	err = doTransfer(nID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"msg": fmt.Sprintf("data error:%s", err.Error())})
 		return
@@ -142,7 +125,7 @@ func UpdateUserInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": "ok"})
 }
 
-func doTransfer(nID int64, isIn bool) (err error) {
+func doTransfer(nID int64) (err error) {
 	var transfer model.Transfer
 	db := model.GetDB()
 	ret := db.First(&transfer, nID)
@@ -153,6 +136,10 @@ func doTransfer(nID int64, isIn bool) (err error) {
 	if transfer.Status != model.TransferInit {
 		err = fmt.Errorf("transfer status error %s", transfer.Status)
 		return
+	}
+	var isIn bool
+	if transfer.Type == model.TransferTypeIn {
+		isIn = true
 	}
 	// maybe add lock
 	var balance model.Balance
@@ -214,6 +201,21 @@ func GetBalanceList(c *gin.Context) {
 	}
 	email := c.Query("email")
 	balances, total, err := model.GetBalanceList(email, offset, perPage)
+	if err != nil {
+		c.JSON(500, gin.H{"msg": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"data": balances, "total": total})
+}
+
+func GetTransferList(c *gin.Context) {
+	page, perPage := GetPageParam(c)
+	offset := (page - 1) * perPage
+	if offset < 0 {
+		offset = 0
+	}
+	status := c.Query("status")
+	balances, total, err := model.GetTransferList(status, offset, perPage)
 	if err != nil {
 		c.JSON(500, gin.H{"msg": err.Error()})
 		return

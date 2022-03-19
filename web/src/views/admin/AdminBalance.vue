@@ -33,7 +33,7 @@
 <el-dialog v-model="openDialog" title="Warning" width="30%" center>
    <el-form :model="currentRow" label-width="120px">
     <el-form-item label="Email">
-      <el-label>{{currentRow.User.email}}</el-label>
+      <label>{{currentRow.User.email}}</label>
     </el-form-item>
     <el-form-item label="Currency">
         <el-input v-model="currentRow.Currency"></el-input>
